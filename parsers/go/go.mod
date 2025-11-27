@@ -1,4 +1,4 @@
-module github.com/conceptual-machines/magda-dsl/parsers/go
+module github.com/Conceptual-Machines/magda-dsl/parsers/go
 
 go 1.24
 

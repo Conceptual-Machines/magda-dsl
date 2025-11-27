@@ -37,7 +37,7 @@ magda-dsl/
 ### Go
 
 ```bash
-go get github.com/conceptual-machines/magda-dsl/parsers/go
+go get github.com/Conceptual-Machines/magda-dsl/parsers/go
 ```
 
 ### C++
