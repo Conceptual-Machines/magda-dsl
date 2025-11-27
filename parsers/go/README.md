@@ -19,7 +19,7 @@ package main
 
 import (
     "fmt"
-    "github.com/conceptual-machines/magda-dsl/parsers/go"
+    "github.com/Conceptual-Machines/magda-dsl/parsers/go"
 )
 
 func main() {
