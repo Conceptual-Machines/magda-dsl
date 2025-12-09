@@ -48,74 +48,83 @@ track_param: "instrument" "=" STRING
 ## Method Chaining
 
 ```
-chain: clip_chain | midi_chain | fx_chain | volume_chain | pan_chain | mute_chain | solo_chain | name_chain
+chain: clip_chain | midi_chain | fx_chain | volume_chain | pan_chain | mute_chain | solo_chain | name_chain | selected_chain | delete_chain | delete_clip_chain
 ```
 
 Methods can be chained together to perform multiple operations on a track.
 
+## Deletion Operations
+
+```
+delete_chain: ".delete" "(" ")"
+delete_clip_chain: ".delete_clip" "(" delete_clip_params? ")"
+delete_clip_params: delete_clip_param ("," SP delete_clip_param)*
+delete_clip_param: "clip" "=" NUMBER
+                 | "position" "=" NUMBER
+                 | "bar" "=" NUMBER
+```
+
+**Examples:**
+- `.delete()` - Delete the current track
+- `.delete_clip(bar=2)` - Delete clip at bar 2
+- `.delete_clip(clip=0)` - Delete clip at index 0
+
 ## Clip Operations
 
 ```
-clip_chain: ".newClip" "(" clip_params? ")" (midi_chain | fx_chain | volume_chain | pan_chain | mute_chain | solo_chain | name_chain)?
+clip_chain: ".new_clip" "(" clip_params? ")"
 clip_params: clip_param ("," SP clip_param)*
 clip_param: "bar" "=" NUMBER
           | "start" "=" NUMBER
-          | "end" "=" NUMBER
           | "length_bars" "=" NUMBER
           | "length" "=" NUMBER
           | "position" "=" NUMBER
 ```
 
 **Examples:**
-- `.newClip(bar=1, length_bars=4)` - Create 4-bar clip at bar 1
-- `.newClip(start=0, length=16)` - Create clip starting at beat 0, 16 beats long
+- `.new_clip(bar=1, length_bars=4)` - Create 4-bar clip at bar 1
+- `.new_clip(start=0, length=16)` - Create clip starting at beat 0, 16 beats long
 
 ## MIDI Operations
 
 ```
-midi_chain: ".addMidi" "(" midi_params? ")"
+midi_chain: ".add_midi" "(" midi_params? ")"
 midi_params: "notes" "=" array
-           | "note" "=" midi_note
-midi_note: "{" midi_note_fields "}"
-midi_note_fields: midi_note_field ("," SP midi_note_field)*
-midi_note_field: "pitch" "=" NUMBER
-              | "velocity" "=" NUMBER
-              | "start" "=" NUMBER
-              | "duration" "=" NUMBER
 ```
 
 **Examples:**
-- `.addMidi(notes=[{pitch=60, velocity=100, start=0, duration=1}])` - Add MIDI note
-- `.addMidi(note={pitch=60, velocity=100, start=0, duration=1})` - Add single MIDI note
+- `.add_midi(notes=[{pitch=60, velocity=100, start=0, duration=1}])` - Add MIDI note
 
 ## FX Operations
 
 ```
-fx_chain: ".addFX" "(" fx_params? ")"
+fx_chain: ".add_fx" "(" fx_params? ")"
 fx_params: "fxname" "=" STRING
          | "instrument" "=" STRING
 ```
 
 **Examples:**
-- `.addFX(fxname="ReaEQ")` - Add FX plugin
-- `.addFX(instrument="Serum")` - Add instrument (alias for addInstrument)
+- `.add_fx(fxname="ReaEQ")` - Add FX plugin
+- `.add_fx(instrument="Serum")` - Add instrument
 
 ## Track Control Operations
 
 ```
-volume_chain: ".setVolume" "(" "volume_db" "=" NUMBER ")"
-pan_chain: ".setPan" "(" "pan" "=" NUMBER ")"
-mute_chain: ".setMute" "(" "mute" "=" BOOLEAN ")"
-solo_chain: ".setSolo" "(" "solo" "=" BOOLEAN ")"
-name_chain: ".setName" "(" "name" "=" STRING ")"
+volume_chain: ".set_volume" "(" "volume_db" "=" NUMBER ")"
+pan_chain: ".set_pan" "(" "pan" "=" NUMBER ")"
+mute_chain: ".set_mute" "(" "mute" "=" BOOLEAN ")"
+solo_chain: ".set_solo" "(" "solo" "=" BOOLEAN ")"
+name_chain: ".set_name" "(" "name" "=" STRING ")"
+selected_chain: ".set_selected" "(" "selected" "=" BOOLEAN ")"
 ```
 
 **Examples:**
-- `.setVolume(volume_db=-3.0)` - Set track volume to -3 dB
-- `.setPan(pan=0.5)` - Pan track 50% right
-- `.setMute(mute=true)` - Mute track
-- `.setSolo(solo=true)` - Solo track
-- `.setName(name="Bass")` - Set track name
+- `.set_volume(volume_db=-3.0)` - Set track volume to -3 dB
+- `.set_pan(pan=0.5)` - Pan track 50% right
+- `.set_mute(mute=true)` - Mute track
+- `.set_solo(solo=true)` - Solo track
+- `.set_name(name="Bass")` - Set track name
+- `.set_selected(selected=true)` - Select track
 
 ## Arrays
 
